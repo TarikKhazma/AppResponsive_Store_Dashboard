@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_color.dart';
 import '../widgets/content_area_widget.dart';
+import '../widgets/drawer_widget.dart';
 import '../widgets/sidebar_widget.dart';
 
 class ProductsScreen extends StatefulWidget {
@@ -28,14 +29,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
       // Drawer (موبايل فقط) 
       drawer: isWide
           ? null
-          : Drawer(
-              child: SidebarWidget(
-                selectedIndex: _selectedNavIndex,
-                onItemSelected: (i) {
-                  setState(() => _selectedNavIndex = i);
-                  Navigator.of(context).pop();
-                },
-              ),
+          : AppDrawer(
+              selectedIndex: _selectedNavIndex,
+              onItemSelected: (i) => setState(() => _selectedNavIndex = i),
             ),
 
       //  (موبايل فقط) — يحل محل زر "Add New Product" 
