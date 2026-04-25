@@ -5,12 +5,14 @@ import '../../../core/theme/app_text_style.dart';
 
 class SearchBarWidget extends StatelessWidget {
   final ValueChanged<String>? onChanged;
+  final TextEditingController? controller;
 
-  const SearchBarWidget({super.key, this.onChanged});
+  const SearchBarWidget({super.key, this.onChanged, this.controller});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       onChanged: onChanged,
       style: AppTextStyle.bodyMedium,
       decoration: InputDecoration(

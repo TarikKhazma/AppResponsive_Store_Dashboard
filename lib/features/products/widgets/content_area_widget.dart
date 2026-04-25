@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import '../../../core/theme/app_color.dart';
 import '../../../core/theme/app_text_style.dart';
-import '../data/products_data.dart';
-import '../models/product_model.dart';
+import '../cubit/products_cubit.dart';
+import '../cubit/products_state.dart';
 import 'header_widget.dart';
 import 'pagination_widget.dart';
 import 'product_card.dart';
@@ -11,7 +12,6 @@ import 'search_bar_widget.dart';
 
 class ContentAreaWidget extends StatefulWidget {
   final bool isWide;
-  // هون منقدر نكتب Function() or VoidCallback
   final Function()? onMenuTap;
   final VoidCallback? onAddProduct;
 
@@ -28,45 +28,69 @@ class ContentAreaWidget extends StatefulWidget {
 
 class _ContentAreaWidgetState extends State<ContentAreaWidget> {
   int _currentPage = 1;
-  String _searchQuery = '';
+  late final TextEditingController _searchController;
+  bool _controllerInitialized = false;
 
-  List<ProductModel> get _filtered => mockProducts
-      .where(
-        (p) =>
-            p.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-            p.category.toLowerCase().contains(_searchQuery.toLowerCase()),
-      )
-      .toList();
+  @override
+  void initState() {
+    super.initState();
+    _searchController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final crossAxisCount = widget.isWide ? 4 : 2;
-    final products = _filtered;
 
-    return CustomScrollView(
-      slivers: [
-        // ----------Header-----------
-        SliverToBoxAdapter(
-          child: HeaderWidget(
-            isWide: widget.isWide,
-            onMenuTap: widget.onMenuTap,
-            onAddProduct: widget.onAddProduct,
-          ),
-        ),
+    return BlocConsumer<ProductsCubit, ProductsState>(
+      listenWhen: (prev, curr) =>
+          prev.status != curr.status && curr.status == ProductStatus.loaded,
+      listener: (context, state) {
+        // استرجاع آخر بحث محفوظ عند أول تحميل
+        if (!_controllerInitialized && state.searchQuery.isNotEmpty) {
+          _searchController.text = state.searchQuery;
+          _controllerInitialized = true;
+        }
+      },
+      builder: (context, state) {
+        final products = state.filteredProducts;
 
-        // ----------Search----------
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-            child: SearchBarWidget(
-              onChanged: (q) => setState(() => _searchQuery = q),
+        return CustomScrollView(
+          slivers: [
+            // ---------- Header ----------
+            SliverToBoxAdapter(
+              child: HeaderWidget(
+                isWide: widget.isWide,
+                onMenuTap: widget.onMenuTap,
+                onAddProduct: widget.onAddProduct,
+              ),
             ),
-          ),
-        ),
 
-        // ---------Grid-----------
-        products.isEmpty
-            ? SliverFillRemaining(
+            // ---------- Search ----------
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                child: SearchBarWidget(
+                  controller: _searchController,
+                  onChanged: (q) => context.read<ProductsCubit>().search(q),
+                ),
+              ),
+            ),
+
+            // ---------- Loading ----------
+            if (state.status == ProductStatus.loading)
+              const SliverFillRemaining(
+                child: Center(child: CircularProgressIndicator()),
+              )
+
+            // ---------- Grid ----------
+            else if (products.isEmpty)
+              SliverFillRemaining(
                 child: Center(
                   child: Text(
                     'No products found',
@@ -76,7 +100,8 @@ class _ContentAreaWidgetState extends State<ContentAreaWidget> {
                   ),
                 ),
               )
-            : SliverPadding(
+            else
+              SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 sliver: SliverMasonryGrid.count(
                   crossAxisCount: crossAxisCount,
@@ -88,18 +113,21 @@ class _ContentAreaWidgetState extends State<ContentAreaWidget> {
                 ),
               ),
 
-        // Pagination
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: PaginationWidget(
-              currentPage: _currentPage,
-              totalPages: 12,
-              onPageChanged: (p) => setState(() => _currentPage = p),
-            ),
-          ),
-        ),
-      ],
+            // ---------- Pagination ----------
+            if (state.status == ProductStatus.loaded)
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: PaginationWidget(
+                    currentPage: _currentPage,
+                    totalPages: 12,
+                    onPageChanged: (p) => setState(() => _currentPage = p),
+                  ),
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 }

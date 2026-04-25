@@ -22,6 +22,18 @@ dependencies:
   # Render SVG images inside Flutter
   flutter_svg: ^2.0.10
 
+  # State management
+  flutter_bloc: ^9.1.1
+
+  # Local database
+  sqflite: ^2.4.2
+  sqflite_common_ffi: ^2.3.4+4
+  path: ^1.9.1
+  path_provider: ^2.1.5
+
+  # Persistent key-value storage
+  shared_preferences: ^2.5.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
