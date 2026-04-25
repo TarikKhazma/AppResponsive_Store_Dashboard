@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/constants/app_size.dart';
 import '../../../core/theme/app_text_style.dart';
 import 'page_btn_widget.dart';
 
@@ -25,32 +26,32 @@ class PaginationWidget extends StatelessWidget {
             PageBtnWidget(
               enabled: currentPage > 1,
               onTap: () => onPageChanged?.call(currentPage - 1),
-              child: const Icon(Icons.chevron_left, size: 18),
+              child: const Icon(Icons.chevron_left, size: AppSize.iconS),
             ),
-            const SizedBox(width: 4),
+            const SizedBox(width: AppSize.s4),
             for (final page in [1, 2, 3]) ...[
               PageBtnWidget(
                 label: '$page',
                 isSelected: currentPage == page,
                 onTap: () => onPageChanged?.call(page),
               ),
-              const SizedBox(width: 4),
+              const SizedBox(width: AppSize.s4),
             ],
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4),
+              padding: const EdgeInsets.symmetric(horizontal: AppSize.s4),
               child: Text('...', style: AppTextStyle.bodyMedium),
             ),
-            const SizedBox(width: 4),
+            const SizedBox(width: AppSize.s4),
             PageBtnWidget(
               label: '$totalPages',
               isSelected: currentPage == totalPages,
               onTap: () => onPageChanged?.call(totalPages),
             ),
-            const SizedBox(width: 4),
+            const SizedBox(width: AppSize.s4),
             PageBtnWidget(
               enabled: currentPage < totalPages,
               onTap: () => onPageChanged?.call(currentPage + 1),
-              child: const Icon(Icons.chevron_right, size: 18),
+              child: const Icon(Icons.chevron_right, size: AppSize.iconS),
             ),
           ],
         ),

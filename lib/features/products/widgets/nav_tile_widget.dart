@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../core/constants/app_size.dart';
 import '../../../core/theme/app_color.dart';
 import '../../../core/theme/app_text_style.dart';
 
@@ -9,8 +10,7 @@ class NavItemData {
   const NavItemData(this.label, this.iconPath);
 }
 
-// مسار البصورة svg
-Widget buildNavIcon(String path, Color color, {double size = 20}) {
+Widget buildNavIcon(String path, Color color, {double size = AppSize.iconM}) {
   if (path.endsWith('.svg')) {
     return SvgPicture.asset(
       path,
@@ -41,22 +41,25 @@ class NavTileWidget extends StatelessWidget {
         : AppColor.unselectedNavText;
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
+      padding: const EdgeInsets.only(bottom: AppSize.s4),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(AppSize.radiusM),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSize.s12,
+              vertical: AppSize.s10,
+            ),
             decoration: BoxDecoration(
               color: isSelected ? AppColor.selectedNavBg : Colors.transparent,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(AppSize.radiusM),
             ),
             child: Row(
               children: [
                 buildNavIcon(data.iconPath, iconColor),
-                const SizedBox(width: 12),
+                const SizedBox(width: AppSize.s12),
                 Flexible(
                   child: Text(
                     data.label,

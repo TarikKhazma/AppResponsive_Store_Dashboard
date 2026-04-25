@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../constants/app_size.dart';
 import 'app_color.dart';
 
 class AppTheme {
@@ -26,9 +27,12 @@ class AppTheme {
             foregroundColor: AppColor.surface,
             elevation: 0,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(AppSize.radiusM),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSize.s20,
+              vertical: AppSize.s12,
+            ),
           ),
         ),
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -39,18 +43,20 @@ class AppTheme {
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: AppColor.surface,
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: AppSize.s16,
+            vertical: AppSize.s12,
+          ),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(AppSize.radiusM),
             borderSide: const BorderSide(color: AppColor.cardBorder),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(AppSize.radiusM),
             borderSide: const BorderSide(color: AppColor.cardBorder),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(AppSize.radiusM),
             borderSide: const BorderSide(color: AppColor.primary, width: 1.5),
           ),
         ),

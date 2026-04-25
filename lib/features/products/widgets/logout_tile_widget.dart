@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../core/constants/app_images.dart';
+import '../../../core/constants/app_size.dart';
 import '../../../core/constants/app_string.dart';
 import '../../../core/theme/app_color.dart';
 import '../../../core/theme/app_text_style.dart';
@@ -13,26 +14,32 @@ class LogoutTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSize.s12,
+        vertical: AppSize.s8,
+      ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: onLogout,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(AppSize.radiusM),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSize.s12,
+              vertical: AppSize.s10,
+            ),
             child: Row(
               children: [
                 SvgPicture.asset(
                   SvgImages.logout,
-                  width: 20,
-                  height: 20,
+                  width: AppSize.iconM,
+                  height: AppSize.iconM,
                   colorFilter: const ColorFilter.mode(
                     AppColor.unselectedNavText,
                     BlendMode.srcIn,
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: AppSize.s12),
                 Flexible(
                   child: Text(
                     AppString.logOut,

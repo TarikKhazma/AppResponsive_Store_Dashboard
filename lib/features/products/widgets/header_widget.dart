@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/constants/app_size.dart';
 import '../../../core/constants/app_string.dart';
 import '../../../core/theme/app_color.dart';
 import '../../../core/theme/app_text_style.dart';
@@ -20,7 +21,12 @@ class HeaderWidget extends StatelessWidget {
     return SafeArea(
       bottom: false,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 28, 24, 20),
+        padding: const EdgeInsets.fromLTRB(
+          AppSize.s24,
+          AppSize.s28,
+          AppSize.s24,
+          AppSize.s20,
+        ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -31,10 +37,9 @@ class HeaderWidget extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: AppSize.s12),
             ],
 
-            // -----------Title + subtitle---------
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +48,7 @@ class HeaderWidget extends StatelessWidget {
                     AppString.productInventory,
                     style: AppTextStyle.headlineLarge,
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: AppSize.s4),
                   Text(
                     AppString.manageCatalog,
                     style: AppTextStyle.bodyMedium.copyWith(
@@ -54,12 +59,11 @@ class HeaderWidget extends StatelessWidget {
               ),
             ),
 
-            // Add New Product button 
             if (isWide) ...[
-              const SizedBox(width: 16),
+              const SizedBox(width: AppSize.s16),
               ElevatedButton.icon(
                 onPressed: onAddProduct,
-                icon: const Icon(Icons.add, size: 18),
+                icon: const Icon(Icons.add, size: AppSize.iconS),
                 label: const Text(AppString.addNewProduct),
               ),
             ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/constants/app_size.dart';
 import '../../../core/constants/app_string.dart';
 import '../../../core/theme/app_color.dart';
 import '../../../core/theme/app_text_style.dart';
@@ -23,7 +24,7 @@ class SearchBarWidget extends StatelessWidget {
         prefixIcon: const Icon(
           Icons.search,
           color: AppColor.iconMuted,
-          size: 20,
+          size: AppSize.iconM,
         ),
       ),
     );

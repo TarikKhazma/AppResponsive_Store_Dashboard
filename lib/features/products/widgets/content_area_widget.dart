@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import '../../../core/constants/app_size.dart';
 import '../../../core/theme/app_color.dart';
 import '../../../core/theme/app_text_style.dart';
 import '../cubit/products_cubit.dart';
@@ -51,7 +52,6 @@ class _ContentAreaWidgetState extends State<ContentAreaWidget> {
       listenWhen: (prev, curr) =>
           prev.status != curr.status && curr.status == ProductStatus.loaded,
       listener: (context, state) {
-        // استرجاع آخر بحث محفوظ عند أول تحميل
         if (!_controllerInitialized && state.searchQuery.isNotEmpty) {
           _searchController.text = state.searchQuery;
           _controllerInitialized = true;
@@ -74,7 +74,12 @@ class _ContentAreaWidgetState extends State<ContentAreaWidget> {
             // ---------- Search ----------
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                padding: const EdgeInsets.fromLTRB(
+                  AppSize.s24,
+                  0,
+                  AppSize.s24,
+                  AppSize.s20,
+                ),
                 child: SearchBarWidget(
                   controller: _searchController,
                   onChanged: (q) => context.read<ProductsCubit>().search(q),
@@ -102,11 +107,11 @@ class _ContentAreaWidgetState extends State<ContentAreaWidget> {
               )
             else
               SliverPadding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
+                padding: const EdgeInsets.symmetric(horizontal: AppSize.s24),
                 sliver: SliverMasonryGrid.count(
                   crossAxisCount: crossAxisCount,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
+                  mainAxisSpacing: AppSize.s16,
+                  crossAxisSpacing: AppSize.s16,
                   itemBuilder: (_, i) =>
                       Center(child: ProductCard(product: products[i])),
                   childCount: products.length,
@@ -117,7 +122,7 @@ class _ContentAreaWidgetState extends State<ContentAreaWidget> {
             if (state.status == ProductStatus.loaded)
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.all(24),
+                  padding: const EdgeInsets.all(AppSize.s24),
                   child: PaginationWidget(
                     currentPage: _currentPage,
                     totalPages: 12,

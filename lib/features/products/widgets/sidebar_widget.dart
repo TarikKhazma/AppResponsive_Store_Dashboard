@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_images.dart';
+import '../../../core/constants/app_size.dart';
 import '../../../core/constants/app_string.dart';
 import '../../../core/theme/app_color.dart';
 import 'logout_tile_widget.dart';
@@ -29,19 +30,19 @@ class SidebarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 240,
+      width: AppSize.sidebarWidth,
       color: AppColor.surface,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SafeArea(bottom: false, child: SizedBox(height: 24)),
+          const SafeArea(bottom: false, child: SizedBox(height: AppSize.s24)),
           const UserProfileWidget(),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSize.s24),
           const Divider(),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSize.s8),
           Expanded(
             child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.symmetric(horizontal: AppSize.s12),
               itemCount: _navItems.length,
               itemBuilder: (_, i) => NavTileWidget(
                 data: _navItems[i],
@@ -52,7 +53,7 @@ class SidebarWidget extends StatelessWidget {
           ),
           const Divider(),
           LogoutTileWidget(onLogout: onLogout),
-          const SafeArea(top: false, child: SizedBox(height: 8)),
+          const SafeArea(top: false, child: SizedBox(height: AppSize.s8)),
         ],
       ),
     );

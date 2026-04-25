@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/constants/app_size.dart';
 import '../../../core/theme/app_color.dart';
 import '../../../core/theme/app_text_style.dart';
 import '../models/product_model.dart';
@@ -12,19 +13,18 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // قد ما كبرت الشاشة ما يكبر الكارت عند 300px
     return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 300),
+      constraints: const BoxConstraints(maxWidth: AppSize.cardMaxWidth),
       child: Container(
         decoration: BoxDecoration(
           color: AppColor.surface,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppSize.radiusL),
           border: Border.all(color: AppColor.cardBorder),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.04),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
+              blurRadius: AppSize.s8,
+              offset: const Offset(0, AppSize.s2),
             ),
           ],
         ),
@@ -34,7 +34,7 @@ class ProductCard extends StatelessWidget {
           children: [
             ProductImageWidget(imageUrl: product.imageUrl),
             Padding(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(AppSize.s12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -44,9 +44,9 @@ class ProductCard extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: AppSize.s4),
                   Text(product.category, style: AppTextStyle.bodySmall),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: AppSize.s10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -61,7 +61,7 @@ class ProductCard extends StatelessWidget {
                         onTap: onEdit,
                         child: const Icon(
                           Icons.edit_outlined,
-                          size: 18,
+                          size: AppSize.iconS,
                           color: AppColor.iconMuted,
                         ),
                       ),
