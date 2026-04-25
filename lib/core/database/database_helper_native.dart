@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -18,7 +18,10 @@ class DatabaseHelper {
   }
 
   Future<Database> _initDatabase() async {
-    if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.linux ||
+            defaultTargetPlatform == TargetPlatform.macOS)) {
       sqfliteFfiInit();
       databaseFactory = databaseFactoryFfi;
     }
